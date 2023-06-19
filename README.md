@@ -1,5 +1,7 @@
 # promo-t-module-3-pair-6-sprint-1-hangman-game
 
+![hangman](https://github.com/Adalab/promo-t-module-3-pair-6-sprint-1-hangman-game/assets/130361802/4946f382-172d-41f0-8c0d-530e103fa039)
+
 ## Enunciado del ejercicio (primera parte) 
 
 
