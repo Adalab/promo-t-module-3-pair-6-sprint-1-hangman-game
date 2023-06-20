@@ -1,6 +1,30 @@
+import { useState } from 'react';
 import '../styles/main.scss';
 
 function App() {
+  const [solution, setSolution] = useState ('');
+  const [correctLetter, setCorrectLetter] = useState ('');
+  const [failedLetter, setFailedLetter] = useState ('');
+  const [ letter, setLetter] = useState ('');
+  const [ numberOfErrors , setErrors] = useState (0);
+/* 
+Al cargar la página, la API debería darnos una nueva palabra y todos los campos vacíos :
+  1. Escribir una letra.
+  2. Comprobar que la letra forma parte de la palabra.
+  3. Si es correcta se añade a la solución.
+  4. Si no es correcta, se añade a las letras falladas donde tenemos un máximo de 5 errores.
+  5. Si tenemos 5 errores hemos perdido.
+
+
+*/
+
+ const handleErrors = () => {
+  console.log ('he hecho click')
+ const plusOne = numberOfErrors + 1 ;
+ setErrors ( plusOne);
+ }
+ 
+
   return (
     <div className="page">
         <header>
@@ -45,7 +69,8 @@ function App() {
             />
           </form>
         </section>
-        <section className="dummy error-5">
+        <section className={`dummy error-${numberOfErrors}`}>
+        <button onClick={handleErrors}>Incrementar</button>
           <span className="error-13 eye"></span>
           <span className="error-12 eye"></span>
           <span className="error-11 line"></span>
