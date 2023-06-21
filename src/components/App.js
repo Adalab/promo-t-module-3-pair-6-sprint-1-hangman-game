@@ -2,10 +2,10 @@ import { useState } from 'react';
 import '../styles/main.scss';
 
 function App() {
-  const [solution, setSolution] = useState ('');
+  const [solution, setSolution] = useState ('katakroker');
   const [correctLetter, setCorrectLetter] = useState ('');
   const [failedLetter, setFailedLetter] = useState ('');
-  const [ letter, setLetter] = useState ('');
+  const [ lastLetter, setLastLetter] = useState ('');
   const [ numberOfErrors , setErrors] = useState (0);
 /* 
 Al cargar la página, la API debería darnos una nueva palabra y todos los campos vacíos :
@@ -18,10 +18,26 @@ Al cargar la página, la API debería darnos una nueva palabra y todos los campo
 
 */
 
- const handleErrors = () => {
+/* const handleErrors = () => {
   console.log ('he hecho click')
  const plusOne = numberOfErrors + 1 ;
  setErrors ( plusOne);
+ }*/
+
+ const handleLastLetter = (ev) => {
+  setLastLetter(ev.target.value);
+  const regex = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü ]{1,50}$/;
+  const lastLetterValue = ev.target.value;
+  const letterTest = regex.test(lastLetterValue);
+  if (letterTest) {
+    console.log ('Esta letra es válida')
+    if (!solution.includes(lastLetterValue)) {
+     const plusOne = numberOfErrors + 1 ;
+      setErrors ( plusOne);
+    }
+  } else {
+    console.log ('Esta letra no es válida')
+  }
  }
  
 
@@ -66,6 +82,8 @@ Al cargar la página, la API debería darnos una nueva palabra y todos los campo
               type="text"
               name="last-letter"
               id="last-letter"
+              onChange={handleLastLetter}
+              value={lastLetter}
             />
           </form>
         </section>
