@@ -2,9 +2,8 @@ import { useState } from 'react';
 import '../styles/main.scss';
 
 function App() {
-  const [solution, setSolution] = useState ('katakroker');
-  const [correctLetter, setCorrectLetter] = useState ('');
-  const [failedLetter, setFailedLetter] = useState ('');
+  const [word, setWord] = useState ('katakroker');
+  const [userLetters, setUserLetters] = useState ([]);
   const [ lastLetter, setLastLetter] = useState ('');
   const [ numberOfErrors , setErrors] = useState (0);
 /* 
@@ -18,11 +17,20 @@ Al cargar la página, la API debería darnos una nueva palabra y todos los campo
 
 */
 
-/* const handleErrors = () => {
+/*const handleErrors = () => {
   console.log ('he hecho click')
  const plusOne = numberOfErrors + 1 ;
  setErrors ( plusOne);
  }*/
+ /*const renderSolution = () => {
+  const wordLetters= word.split('')
+  return wordLetters.map ((oneLetter) => {
+  if (){<li>{oneLetter}</li>}
+ })
+ }*/
+ const renderSolution = () => {
+  const wordLetters= word.split('')
+  return wordLetters.map ((oneLetter) =><li className="letter" ></li>)}
 
  const handleLastLetter = (ev) => {
   setLastLetter(ev.target.value);
@@ -31,7 +39,7 @@ Al cargar la página, la API debería darnos una nueva palabra y todos los campo
   const letterTest = regex.test(lastLetterValue);
   if (letterTest) {
     console.log ('Esta letra es válida')
-    if (!solution.includes(lastLetterValue)) {
+    if (!word.includes(lastLetterValue)) {
      const plusOne = numberOfErrors + 1 ;
       setErrors ( plusOne);
     }
@@ -51,7 +59,8 @@ Al cargar la página, la API debería darnos una nueva palabra y todos los campo
           <div className="solution">
             <h2 className="title">Solución:</h2>
             <ul className="letters">
-              <li className="letter">k</li>
+            {renderSolution()}
+              {/*<li className="letter">k</li>
               <li className="letter">a</li>
               <li className="letter"></li>
               <li className="letter">a</li>
@@ -60,7 +69,7 @@ Al cargar la página, la API debería darnos una nueva palabra y todos los campo
               <li className="letter"></li>
               <li className="letter">k</li>
               <li className="letter">e</li>
-              <li className="letter">r</li>
+              <li className="letter">r</li>*/}
             </ul>
           </div>
           <div className="error">
@@ -88,7 +97,7 @@ Al cargar la página, la API debería darnos una nueva palabra y todos los campo
           </form>
         </section>
         <section className={`dummy error-${numberOfErrors}`}>
-        <button onClick={handleErrors}>Incrementar</button>
+        {/*<button onClick={handleErrors}>Incrementar</button>*/}
           <span className="error-13 eye"></span>
           <span className="error-12 eye"></span>
           <span className="error-11 line"></span>
