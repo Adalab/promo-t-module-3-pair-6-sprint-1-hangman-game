@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/main.scss';
 
 function App() {
-  const [word, setWord] = useState ('katakroker');
+  const [word, setWord] = useState ('');
   const [userLetters, setUserLetters] = useState ([]);
   const [ lastLetter, setLastLetter] = useState ('');
   const [ numberOfErrors , setErrors] = useState (0);
@@ -17,6 +17,18 @@ Al cargar la página, la API debería darnos una nueva palabra y todos los campo
 
 */
 
+// PEDIR SOPORTE PARA ESTO:
+/*
+  useEffect( ()=>{
+    fetch('https://dev.adalab.es/api/random/word')
+    .then((response) => response.json())
+    .then((data) => {
+      setWord(data)
+    })
+  }, []);*/
+  
+
+
 /*const handleErrors = () => {
   console.log ('he hecho click')
  const plusOne = numberOfErrors + 1 ;
@@ -30,24 +42,43 @@ Al cargar la página, la API debería darnos una nueva palabra y todos los campo
  }*/
  const renderSolution = () => {
   const wordLetters= word.split('')
-  return wordLetters.map ((oneLetter) =><li className="letter" ></li>)}
+  return wordLetters.map ((oneLetter) => 
+  { if (!userLetters.includes(oneLetter)) { return <li className="letter"></li>} else {
+    return <li className="letter">{oneLetter}</li>
+  }
+  }
+  )}
+
+
+  const renderErrorLetters = () => {
+    return userLetters
+      .filter( (oneLetter) => 
+      oneLetter.includes(userLetters)
+      ).map( (oneLetter, ind) => <li key={ind}className="letter">{oneLetter}</li>)
+  }
 
  const handleLastLetter = (ev) => {
   setLastLetter(ev.target.value);
   const regex = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü ]{1,50}$/;
-  const lastLetterValue = ev.target.value;
+  const lastLetterValue = ev.target.value.toLowerCase();
   const letterTest = regex.test(lastLetterValue);
   if (letterTest) {
     console.log ('Esta letra es válida')
     if (!word.includes(lastLetterValue)) {
      const plusOne = numberOfErrors + 1 ;
-      setErrors ( plusOne);
+      setErrors (plusOne);
     }
+    setUserLetters( [...userLetters, lastLetterValue]);
   } else {
     console.log ('Esta letra no es válida')
   }
+  
  }
  
+ const handleSubmit = (ev) => {
+  ev.preventDefault();
+ }
+
 
   return (
     <div className="page">
@@ -60,7 +91,8 @@ Al cargar la página, la API debería darnos una nueva palabra y todos los campo
             <h2 className="title">Solución:</h2>
             <ul className="letters">
             {renderSolution()}
-              {/*<li className="letter">k</li>
+              {/*
+              <li className="letter">k</li>
               <li className="letter">a</li>
               <li className="letter"></li>
               <li className="letter">a</li>
@@ -69,20 +101,22 @@ Al cargar la página, la API debería darnos una nueva palabra y todos los campo
               <li className="letter"></li>
               <li className="letter">k</li>
               <li className="letter">e</li>
-              <li className="letter">r</li>*/}
+              <li className="letter">r</li>
+              */}
             </ul>
           </div>
           <div className="error">
             <h2 className="title">Letras falladas:</h2>
             <ul className="letters">
-              <li className="letter">f</li>
+              {renderErrorLetters()}
+              {/*<li className="letter">f</li>
               <li className="letter">q</li>
               <li className="letter">h</li>
               <li className="letter">p</li>
-              <li className="letter">x</li>
+            <li className="letter">x</li>*/}
             </ul>
           </div>
-          <form className="form">
+          <form className="form" onSubmit={handleSubmit}>
             <label className="title" htmlFor="last-letter">Escribe una letra:</label>
             <input
               autoComplete="off"
